@@ -36,7 +36,7 @@ while True:
 
     #--------------------------------caso nao encontrar o arquivo no servidor PROXY (CASH)------------------------------
     except IOError:
-
+    #********************************************************** BUG  *********************************************
         if fileExist == "false":
             #------------CONECTADO COM O SERVIDOR-----------
             try:
@@ -47,7 +47,7 @@ while True:
             except:
                 print ("Illegal request")
 
-
+    #*********************************************************************************************************
 
         else:
             # HTTP response message for file not found
