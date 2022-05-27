@@ -1,4 +1,5 @@
 from socket import *
+import requests
 
 serversocket = socket(AF_INET, SOCK_STREAM)
 serversocket.bind(("127.0.0.1", 8889))
@@ -35,27 +36,17 @@ while True:
 
     #--------------------------------caso nao encontrar o arquivo no servidor PROXY (CASH)------------------------------
     except IOError:
+
         if fileExist == "false":
-            #------------CRIANDO UM SOCKET EM SERVIDOR PROXY-----------
-            c = socket(AF_INET, SOCK_STREAM)
-            hostn = filename.replace("www.", "", 1)
-            print(hostn)
+            #------------CONECTADO COM O SERVIDOR-----------
             try:
-                # Connect to the socket to port 80
-                c.connect((hostn, 80))
-                # Create a temporary file on this socket and ask port 80 for the file requested by the client
-                fileobj = c.makefile('r', 0)
-                fileobj.write("GET "+"http://" + filename + "HTTP/1.0\n\n")
-                # Read the response into buffer
-                buff = fileobj.readlines()
-                # Create a new file in the cache for the requested file. Also send the response in the buffer to client socket and the corresponding file in the cache
-                tmpFile = open("./" + filename,"wb")
-                for line in buff:
-                    tmpFile.write(line.encode())
-                    clienteconnect.send(line.encode())
+                response = requests.get("http://ola.com")
+                clienteconnect.send(response.text.encode())
+                print("pagina enviada")
 
             except:
                 print ("Illegal request")
+
 
 
         else:
